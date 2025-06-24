@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import asyncio
 import os
 
+# Debug: show startup
 print("🚀 Flask App Starting...")
 
 try:
@@ -24,11 +25,14 @@ def home():
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
-    try:
-        data = request.get_json()
-        print("📩 Incoming data:", data)
+    print("📥 /webhook endpoint hit")
 
-        linkedin_url = data.get("linkedin_url")
+    try:
+        print("🔍 Raw request data:", request.data)
+        data = request.get_json(force=True, silent=True)
+        print("📩 Parsed JSON:", data)
+
+        linkedin_url = data.get("linkedin_url") if data else None
         if not linkedin_url:
             print("❌ No LinkedIn URL found.")
             return jsonify({"error": "Missing LinkedIn URL"}), 400
