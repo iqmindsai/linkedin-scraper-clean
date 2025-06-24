@@ -1,8 +1,20 @@
 from flask import Flask, request, jsonify
-from scraper import scrape_profile  # Async function
-from email_generator import generate_email  # Uses OpenAI
 import asyncio
 import os
+
+print("🚀 Flask App Starting...")
+
+try:
+    from scraper import scrape_profile
+    print("✅ scraper.py imported")
+except Exception as e:
+    print("❌ Failed to import scraper.py:", e)
+
+try:
+    from email_generator import generate_email
+    print("✅ email_generator.py imported")
+except Exception as e:
+    print("❌ Failed to import email_generator.py:", e)
 
 app = Flask(__name__)
 
